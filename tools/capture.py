@@ -5,7 +5,7 @@ import argparse,subprocess,json,hashlib,time,datetime,os
 ROOT=Path(__file__).resolve().parents[1]
 PKG='staff.android.performance'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
-p=argparse.ArgumentParser();p.add_argument('--adb',default=os.environ.get('ADB',str(Path.home()/'Library/Android/sdk/platform-tools/adb')));p.add_argument('--serial',default='emulator-5554');p.add_argument('--apk',type=Path,default=ROOT/'evidence/candidate1/artifacts/app-release.apk');p.add_argument('--out',type=Path,required=True);p.add_argument('--iterations',type=int,default=3);p.add_argument('--scenarios',nargs='+',default=['blocked','busy','repaired']);a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--adb',default=os.environ.get('ADB',str(Path(os.environ.get('ANDROID_HOME', str(Path.home() / 'Library/Android/sdk'))) / 'platform-tools/adb')));p.add_argument('--serial',default='emulator-5554');p.add_argument('--apk',type=Path,default=ROOT/'app/build/outputs/apk/release/app-release.apk');p.add_argument('--out',type=Path,required=True);p.add_argument('--iterations',type=int,default=3);p.add_argument('--scenarios',nargs='+',default=['blocked','busy','repaired']);a=p.parse_args()
 assert a.iterations>0
 assert all(s in ['blocked','busy','repaired'] for s in a.scenarios)
 a.out.mkdir(parents=True,exist_ok=False)

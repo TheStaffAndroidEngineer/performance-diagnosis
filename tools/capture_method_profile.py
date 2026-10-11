@@ -3,7 +3,7 @@
 from pathlib import Path
 import argparse,subprocess,time,json,hashlib,datetime,struct,os
 ROOT=Path(__file__).resolve().parents[1];PKG='staff.android.performance'
-p=argparse.ArgumentParser();p.add_argument('--apk',type=Path,default=ROOT/'app/build/outputs/apk/debug/app-debug.apk');p.add_argument('--out',type=Path,required=True);p.add_argument('--serial',default='emulator-5554');p.add_argument('--adb',default=os.environ.get('ADB',str(Path.home()/'Library/Android/sdk/platform-tools/adb')));a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--apk',type=Path,default=ROOT/'app/build/outputs/apk/debug/app-debug.apk');p.add_argument('--out',type=Path,required=True);p.add_argument('--serial',default='emulator-5554');p.add_argument('--adb',default=os.environ.get('ADB',str(Path(os.environ.get('ANDROID_HOME', str(Path.home() / 'Library/Android/sdk'))) / 'platform-tools/adb')));a=p.parse_args()
 a.out.mkdir(parents=True,exist_ok=False);base=[a.adb,'-s',a.serial];commands=[]
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def run(*args):
